@@ -26,3 +26,31 @@ jobs:
 
       - name: Run tests
         run: pytest
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install linting tool
+        run: pip install ruff
+
+      - name: Run lint check
+        run: ruff check app.py test_app.py
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build --no-cache -t weather-api .
